@@ -9,7 +9,6 @@ const News = (props) => {
   const [loading, setloading] = useState(true)
   const [page, setPage] = useState(1)
   const [totalResults, setTotalResults] = useState(0)
-  // document.title = `NewsMonkey - ${this.capitalizeFirstLetter(props.category)}`;
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -40,13 +39,15 @@ const News = (props) => {
     console.log("Fetch is called",loading)
 };
   useEffect(() => {
+    document.title = `NewsMonkey - ${capitalizeFirstLetter(props.category)}`;
     updateNews();
+    //eslint-disable-next-line
   },[])
   
 
     return (
       <>
-          <h2 className="text-center">
+          <h2 className="text-center" style={{marginTop : "80px"}}>
             NewsMonkey - Top {capitalizeFirstLetter(props.category)} Headlines
           </h2>
           {loading && <Spinner/>}
