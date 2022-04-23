@@ -6,7 +6,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const News = (props) => {
   const [articles, setArticles] = useState([])
-  const [loading, setloading] = useState(true)
+  const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
   const [totalResults, setTotalResults] = useState(0)
 
@@ -17,26 +17,29 @@ const News = (props) => {
   const updateNews = async () => {
     props.setProgress(20);
     const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pagesize=${props.pagesize}`;
-    setloading(true)
+    setLoading(true)
     props.setProgress(50);
     let data = await fetch(url);
     let parsedData = await data.json();
     props.setProgress(80);
     setArticles(parsedData.articles)
     setTotalResults(parsedData.totalResults)
-    setloading(false)
+    setLoading(false)
     props.setProgress(100);
-    console.log("Update is Calling",loading, totalResults);
+    // console.log("Update is Calling",loading, totalResults);
 }
 
   const fetchMoreData = async () => {
     setPage(page + 1)
     const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pagesize=${props.pagesize}`;
+    // setLoading(true)
     let data = await fetch(url);
     let parsedData = await data.json()
     setArticles(articles.concat(parsedData.articles))
     setTotalResults(parsedData.totalResults)
-    console.log("Fetch is called",loading)
+    // setLoading(false)
+
+    // console.log("Fetch is called",loading)
 };
   useEffect(() => {
     document.title = `NewsMonkey - ${capitalizeFirstLetter(props.category)}`;
@@ -55,7 +58,7 @@ const News = (props) => {
               dataLength={articles.length}
               next={fetchMoreData}
               hasMore={articles.length !== totalResults}
-              loader={<Spinner/>}
+              loader={loading && <Spinner/>}
             >
               <div className="container">
           <div className="row">
